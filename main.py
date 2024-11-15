@@ -16,15 +16,14 @@ from torchinfo import summary
 #from src.baselines.stgcn import *
 #from src.baselines.gwnet import *
 #from src.baselines.agcrn import *
-from src.baselines.stae import *
+#from src.baselines.stae import *
 
 #from src.baselines.d2stgnn import *
-#from src.baselines.stid import *
+from src.baselines.stid import *
 #from src.baselines.lstm import *
 
 def main():
     args = get_config() # Get arguments
-    args.model_name = args.model
     init_seed(args.seed) # Set random seed
     args.data_path, args.adj_path, args.node_num = get_dataset_info(args.dataset) # Get dataset info
     args.adj_mx = load_adj_from_numpy(args.adj_path) # Load adjacency matrix
