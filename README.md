@@ -85,13 +85,13 @@ or use `./download_datasets.sh` to download datasets.
 ## ⭐Quick Start
 1. train and save the baselines.
 ```
-python main.py [--device] [--dataset] [--year] [--model_name] [-seed] [--batch_size]
+python main.py --mode=train [--device] [--dataset] [--year] [--model_name] [-seed] [--batch_size] [--seq_length] [--horizon] [--input_dim] [--output_dim]
 ... # please import the model from the code
 ```
 
 2. train the vanilla version STUM model.
 ```
-python train_stum_ori.py --stlora
+python train_stum_ori.py --enhance
 ```
 
 3. train a STUM model enhanced by STGNNs. 
