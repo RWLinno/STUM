@@ -86,27 +86,33 @@ or use `./download_datasets.sh` to download datasets.
 1. train and save the baselines.
 ```
 python main.py --mode=train [--device] [--dataset] [--year] [--model_name] [-seed] [--batch_size] [--seq_length] [--horizon] [--input_dim] [--output_dim]
-... # please import the model from the code
+... # Please import the model from the code
+# copy the following example
+python main.py --device=cuda:2 --dataset=PEMS07 --years=2017  --batch_size=64 --seq_length=12 --horizon=12 --input_dim=3 --output_dim=1 --mode=train --model_name=stgcn --save='pre_trained_stgcn_model.pt'
 ```
 
 2. train the vanilla version STUM model.
 ```
-python train_stum_ori.py --enhance
+python train_stum_ori.py --enhance --num_mlrfs=4 --num_cells=8 --embed_dim=16 [--mlp] [--without_backbone] [--frozen] [--bias] [--pre_train] [--save]
+# optimization setting: [--max_epochs] [--save_interval] [--patience] [--lrate] [--wdecay] [--step_size] [--gamma] [--dropout] [--clip_grad_value] [--adj_type]
 ```
 
 3. train a STUM model enhanced by STGNNs. 
 ```
-# A. we train together
-python main.py [-dataset] [-device] [-pre_train] [-seed] [-epochs] ...
-# B. reload the pre-trained STGNNs used in (more efficient)
+# A. We train together
+python main.py --enhance --device=cuda:2 --dataset=PEMS07 --years=2017  --batch_size=64 --seq_length=12 --horizon=12 --input_dim=3 --output_dim=1 --mode=train
 
+# B. Reload the pre-trained STGNNs used in (more efficient)
+python main.py --enhance --device=cuda:2 --dataset=PEMS07 --years=2017  --batch_size=64 --seq_length=12 --horizon=12 --input_dim=3 --output_dim=1 --mode=train --pre_train='pre_trained_stgcn_model.pt'
 ```
 
-4. 
+4. ablation study and other analysis
+Stay tuned for the latest repo/experiments
+
 ## 🔗Citing  STUM
 (🌟It's very important for me~~~)
 
-If you find this resource helpful, please consider to star this repository and cite our research:
+If you find this resource helpful, please consider star this repository and cite our research:
 ```
 @article{ruan2024cross,
   title={Cross Space and Time: A Spatio-Temporal Unitized Model for Traffic Flow Forecasting},
