@@ -103,7 +103,7 @@ python train_stum_ori.py --enhance --num_mlrfs=4 --num_cells=8 --embed_dim=16 [-
 python main.py --enhance --device=cuda:2 --dataset=PEMS07 --years=2017  --batch_size=64 --seq_length=12 --horizon=12 --input_dim=3 --output_dim=1 --mode=train
 
 # B. Reload the pre-trained STGNNs used in (more efficient)
-python main.py --enhance --device=cuda:2 --dataset=PEMS07 --years=2017  --batch_size=64 --seq_length=12 --horizon=12 --input_dim=3 --output_dim=1 --mode=train --pre_train='pre_trained_stgcn_model.pt'
+python main.py --enhance --pre_train='pre_trained_stgcn_model.pt' --frozen --device=cuda:2 --dataset=PEMS07 --years=2017  --batch_size=64 --seq_length=12 --horizon=12 --input_dim=3 --output_dim=1 --mode=train
 ```
 
 4. ablation study and other analysis
