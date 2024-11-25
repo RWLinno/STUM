@@ -1,14 +1,9 @@
 This is the official repo for the paper 'Cross Spatial and Time: A Spatio-Temporal Unitized Model for Traffic Flow Forecasting'
 
-The lastest source code will be released when the paper accepted.
+The latest source code will be released when the paper is accepted.
 
 **<font color='red'>[Highlight]</font> This code is the version as of November 2024, and the updated code will be released upon acceptance of the paper.**
 **<font color='red'>Part of the information will be hidden during the review phase.</font>**
-
-## 🔗Citing  STUM
-(🌟It's very important for me~~~)
-
-If you find this resource helpful, please consider to star this repository and cite our research:
 
 ## 💿Requirements
 
@@ -19,8 +14,8 @@ If you find this resource helpful, please consider to star this repository and c
 All dependencies can be installed using the following command:
 
 ```
-conda create -n stlora python==3.7
-conda activate stlora
+conda create -n stum python==3.7
+conda activate stum
 pip install -r requirements.txt
 ```
 
@@ -87,9 +82,36 @@ pip install -r requirements.txt
 You can download datasets used in the paper via this link: [Google Drive](https://drive.google.com/drive/folders/1vtfAlMufZJxzoLsdJXFasE39pfc1Xcqn?usp=sharing)
 or use `./download_datasets.sh` to download datasets.
 
-
 ## ⭐Quick Start
+1. train and save the baselines.
+```
+python main.py [--device] [--dataset] [--year] [--model_name] [-seed] [--batch_size]
+... # please import the model from the code
+```
+
+2. train the vanilla version STUM model.
+```
+python train_stum_ori.py --stlora
+```
+
+3. train a STUM model enhanced by STGNNs. 
+```
+# A. we train together
+python main.py [-dataset] [-device] [-pre_train] [-seed] [-epochs] ...
+# B. reload the pre-trained STGNNs used in (more efficient)
 
 ```
-python main.py [-dataset] [-device] [-pre_train] [-seed] [-epochs] ...
+
+4. 
+## 🔗Citing  STUM
+(🌟It's very important for me~~~)
+
+If you find this resource helpful, please consider to star this repository and cite our research:
+```
+@article{ruan2024cross,
+  title={Cross Space and Time: A Spatio-Temporal Unitized Model for Traffic Flow Forecasting},
+  author={Ruan, Weilin and Wang, Wenzhuo and Zhong, Siru and Chen, Wei and Liu, Li and Liang, Yuxuan},
+  journal={arXiv preprint arXiv:2411.09251},
+  year={2024}
+}
 ```
