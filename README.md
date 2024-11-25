@@ -1,4 +1,5 @@
-This is the official repo for the paper 'Cross Spatial and Time: A Spatio-Temporal Unitized Model for Traffic Flow Forecasting'
+# Cross Spatial and Time: A Spatio-Temporal Unitized Model for Traffic Flow Forecasting
+This is the official repo for the paper ['Cross Spatial and Time: A Spatio-Temporal Unitized Model for Traffic Flow Forecasting'](https://arxiv.org/abs/2411.09251)
 
 The latest source code will be released when the paper is accepted.
 
