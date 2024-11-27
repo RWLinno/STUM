@@ -10,7 +10,7 @@ from src.utils.metrics import masked_mape,masked_rmse,compute_all_metrics
 import ipdb
 
 import wandb
-wandb.init(project="st-lora")
+wandb.init(project="stum")
 
 class BaseEngine():
     def __init__(self, args):
