@@ -6,3 +6,8 @@ scikit_learn
 scipy
 torch
 torch_geometric
+torchdiffeq
+torchinfo
+ipdb
+wandb
+urllib3==1.26.15
