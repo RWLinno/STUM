@@ -8,6 +8,8 @@ torch
 torch_geometric
 torchdiffeq
 torchinfo
+fastdtw
+gdown
 ipdb
 wandb
 urllib3==1.26.15
