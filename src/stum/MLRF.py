@@ -125,19 +125,25 @@ class MLRF(nn.Module):
         B, T, E = x.shape
         N, D = E//self.embed_dim, self.embed_dim
         x = x.reshape(B, T, N, D) 
-        for i in range(len(self.cells_spatial)):
         
+        for i in range(len(self.cells_spatial)):
+            residual = x
+            
+            # Apply normalization
             output = self.norm(x)
 
-            output = output.reshape(B,T, N*D) # B,T, N*D
-
+            # Spatial processing
+            output = output.reshape(B, T, N*D) # B,T, N*D
             output = self.cells_spatial[i](output).reshape(B, T, N, D)
         
+            # Temporal processing
             output = output.transpose(1, 2).reshape(B, N, T*D) # B, N, T*D
+            output = self.cells_temporal[i](output).transpose(1, 2).reshape(B, T, N, D)
             
-            output = self.cells_temporal[i](output).transpose(1,2).reshape(B, T, N, D)
+            # Residual connection
+            x = residual + output
 
-        return output.reshape(B,T,E)
+        return x.reshape(B, T, E)
 
 class RMSNorm(nn.Module):
     def __init__(self,

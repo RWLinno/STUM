@@ -9,8 +9,11 @@ from src.models.__init__ import *
 from src.utils.metrics import masked_mape,masked_rmse,compute_all_metrics
 import ipdb
 
-import wandb
-wandb.init(project="stum")
+try:
+    import wandb
+    WANDB_AVAILABLE = True
+except ImportError:
+    WANDB_AVAILABLE = False
 
 class BaseEngine():
     def __init__(self, args):
@@ -42,6 +45,7 @@ class BaseEngine():
         self._logger = args.logger
         self._seed = args.seed
         self.save_interval = args.save_interval
+        self._wandb_enabled = getattr(args, 'wandb', False) and WANDB_AVAILABLE
 
         try:
             self._logger.info('The number of parameters: {}'.format(self.model.param_num())) 
@@ -156,11 +160,24 @@ class BaseEngine():
             mtrain_loss, mtrain_mape, mtrain_rmse = self.train_batch(epoch)
             t2 = time.time()
 
-            wandb.log({'epoch': epoch, 'mae': mtrain_loss, 'mape':mtrain_mape, 'rmse':mtrain_rmse})
+            if self._wandb_enabled:
+                wandb.log({
+                    'epoch': epoch, 
+                    'train_loss': mtrain_loss, 
+                    'train_mape': mtrain_mape, 
+                    'train_rmse': mtrain_rmse
+                })
 
             v1 = time.time()
             mvalid_loss, mvalid_mape, mvalid_rmse = self.evaluate('val')
             v2 = time.time()
+            
+            if self._wandb_enabled:
+                wandb.log({
+                    'val_loss': mvalid_loss,
+                    'val_mape': mvalid_mape,
+                    'val_rmse': mvalid_rmse
+                })
 
             if self._lr_scheduler is None:
                 cur_lr = self._lrate
@@ -250,8 +267,6 @@ class BaseEngine():
             wandb.log({'Average Test MAE': np.mean(test_mae), 'Test RMSE': np.mean(test_rmse), 'Test MAPE': np.mean(test_mape)})
         
         #ipdb.set_trace()
-
-            # 方便记录结果
             results_name = "results"+str(self._seed)+".csv"
             with open(results_name, 'w', newline='') as csvfile:
                 fieldnames = ['MAE3', 'RMSE3', 'MAPE3','MAE6', 'RMSE6', 'MAPE6','MAE12', 'RMSE12', 'MAPE12','MAEa', 'RMSEa', 'MAPEa']

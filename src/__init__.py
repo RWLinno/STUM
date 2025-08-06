@@ -7,10 +7,10 @@ from .engines.__init__ import *
 from .utils.__init__ import *
 import os
 
-my_name = 'rwlinno'
-its_name = 'STUM'
+# Project configuration
+project_name = 'STUM'
 
-# 手动设置随机种子
+# Initialize random seed manually
 def init_seed(seed):
     #if seed == 998244353:
     #    seed = random.randint(0, 100000000)
@@ -37,7 +37,7 @@ def get_memory_usage(device):
     print('Allocated Memory: {:.2f} MB, Cached Memory: {:.2f} MB'.format(allocated_memory, cached_memory))
     return allocated_memory, cached_memory
 
-# 打印可学习参数率
+# Print trainable parameter ratio
 def print_trainable_parameters(model):
     trainable_params = 0
     all_param = 0

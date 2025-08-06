@@ -69,6 +69,7 @@ def get_public_config():
     parser.add_argument('--dropout', type=float, default=0.3)
     parser.add_argument('--clip_grad_value', type=int, default=5)
     parser.add_argument('--adj_type', type=str, default='doubletransition')
+    parser.add_argument('--wandb', action='store_true', help='Enable Weights & Biases logging')
 
 
     return parser
