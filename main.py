@@ -1,9 +1,4 @@
 import os
-
-is_debug = True
-if is_debug:
-    os.environ['WANDB_MODE'] = 'disabled'
-
 import time
 import argparse
 import numpy as np
@@ -12,6 +7,12 @@ from src.__init__ import *
 import src.loralib as lora
 import src.stum as stum
 from torchinfo import summary
+
+try:
+    import wandb
+    WANDB_AVAILABLE = True
+except ImportError:
+    WANDB_AVAILABLE = False
 
 #from src.baselines.stgcn import *
 #from src.baselines.gwnet import *
@@ -25,6 +26,17 @@ from src.baselines.stid import *
 def main():
     args = get_config() # Get arguments
     init_seed(args.seed) # Set random seed
+    
+    # Initialize wandb if enabled
+    if args.wandb and WANDB_AVAILABLE:
+        wandb.init(
+            project="STUM",
+            name=f"{args.model_name}_{args.dataset}_{args.years}",
+            config=vars(args)
+        )
+    elif args.wandb and not WANDB_AVAILABLE:
+        args.logger.warning("Wandb is not available, logging disabled")
+    
     args.data_path, args.adj_path, args.node_num = get_dataset_info(args.dataset) # Get dataset info
     args.adj_mx = load_adj_from_numpy(args.adj_path) # Load adjacency matrix
     # args.adj_mx = normalize_adj_mx(args.adj_mx, args.adj_type) # Normalize adjacency matrix

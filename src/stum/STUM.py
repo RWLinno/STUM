@@ -80,14 +80,6 @@ class STUM(nn.Module):
             x = self.blocks[i](x) # Relu / Leakly  are the same
             x = self.dropout(x)
 
-        tuning = self.adp_predictor(x).reshape(B,T,N,-self.output_dim)[:,-self.horizon:,:,:] # [B,T,N,embed_dim]->[B,T,N,output_dim]
+        tuning = self.adp_predictor(x).reshape(B,T,N,self.output_dim)[:,-self.horizon:,:,:] # [B,T,N,embed_dim]->[B,T,N,output_dim]
 
-        #return tuning
-        #print("output.shape: ", output.shape)
-        #print("tuning.shape: ", tuning.shape)
-
-        return output + tuning 
-
-        gating_input = torch.cat([x0, tuning], dim=-1)
-        r = F.relu(self.gate(gating_input))
-        return r * output + (1-r) * tuning # gate
+        return output + tuning
